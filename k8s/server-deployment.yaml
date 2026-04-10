@@ -15,5 +15,6 @@ spec:
       containers:
       - name: server
         image: unixproject-server
+        imagePullPolicy: Never
         ports:
         - containerPort: 5000
