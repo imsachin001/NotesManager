@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
+const notesRouter = require("./routes/notes");
 
 dotenv.config();
 
@@ -12,17 +13,18 @@ if (!mongoUri) {
   throw new Error("MONGO_URI is not set in the environment");
 }
 
+app.use(express.json());
+
+app.get("/", (req, res) => {
+  res.send("API running");
+});
+
+app.use("/api/notes", notesRouter);
+
 mongoose
   .connect(mongoUri)
   .then(() => {
     console.log("MongoDB connected");
-
-    app.use(express.json());
-
-    app.get("/", (req, res) => {
-      res.send("API running");
-    });
-
     app.listen(port, () => console.log(`Server running on port ${port}`));
   })
   .catch((error) => {
